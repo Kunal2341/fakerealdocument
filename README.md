@@ -1,5 +1,17 @@
 
+
 # Detecting if a document real or fake
+
+## Process
+|Barcode|Date|Title|
+|--|--|--|
+|Direct from PDF | Convert PNG Document to text using  `pytesseract.image_to_string`| Base picture of title that document is compared to
+|Scan entire document, get 3 barcode results | Extract date from text |![Example of title Image](https://github.com/Kunal2341/fakerealdocument/blob/master/COMPARINGIMAGE.png)
+|Using `DynamsoftBarcodeReader` Token (get from Kunal)| Compare year, month, day date. | Convert Document PNG to numpy array
+|Convert PNG Document to text using `pytesseract.image_to_string`|-|Compare each value, RGB in array
+|Extract written barcode and compare values|-| Threshold value `20`
+|`Error` faced when converting image to text -> I or 1|-| `Error` when title is titled
+
 
 # As of Feb 20
 - Detection of barcode using an API from dynamsoft. (Contact Kunal for the API token). 
