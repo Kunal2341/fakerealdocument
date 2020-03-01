@@ -1,8 +1,8 @@
 # Detecting if a document real or fake
-# Water Mark
-## PART 1
-![Example of title Image]
-This converts the document into a 2D ARRAY and loops through all the values. It checks for each RGB value if it is between **239 and 248**. \
+## Water Mark
+### PART 1
+
+This converts the document into a 2D ARRAY and loops through all the values. It checks for each RGB value if it is between **239 and 248**. 
 If YES then converts it to a green pixel (**[0, 255, 0]**) and if NO then it converts to (**[0, 0, 0]**). 
 
     down = 239 #238 ----- 239 
@@ -29,8 +29,11 @@ If YES then converts it to a green pixel (**[0, 255, 0]**) and if NO then it con
 	img = Image.fromarray(arrayNew)
 	img
 
+![Image](https://github.com/Kunal2341/fakerealdocument/blob/master/Editedasof2-28removedAgain.jpg)
+
+
 As you can see in this picture, there are many green pixels that shouldn't be there. They are randomly around the document. We will fix this in part 2. 
-## PART 2
+### PART 2
 Loops through all `618800` pixels.  For each pixel it creates a square around it based on the distance :
 
 | -|  DISTANCE | OF| 2| -|
@@ -49,6 +52,7 @@ Since the percent black is over a threshold, it converts the center pixel to **B
 
 As a result the final picture will look like 
 
+*******************ADD IMAGE HERE
 
 
 Main Code
