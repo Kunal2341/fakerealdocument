@@ -1,6 +1,89 @@
-
-
 # Detecting if a document real or fake
+# Water Mark
+## PART 1
+![Example of title Image]
+This converts the document into a 2D ARRAY and loops through all the values. It checks for each RGB value if it is between **239 and 248**. \
+If YES then converts it to a green pixel (**[0, 255, 0]**) and if NO then it converts to (**[0, 0, 0]**). 
+
+    down = 239 #238 ----- 239 
+	up = 248 # ---------248
+	array = cv2.imread(file1)
+	arrayNew = cv2.imread(file1)
+	img = Image.open(file1)
+	w, h = img.size
+	rgb_im = img.convert('RGB')
+	print(w, h)
+	for x in range(909):
+	    for y in range(697):
+	        try:
+	            singlearray = array[x, y]
+	            r = singlearray[0]
+	            g = singlearray[1]
+	            b = singlearray[2]
+	            if (r > down and r < up and g > down and g < up and b > down and b < up):
+	                arrayNew[x, y] = [0, 255, 0]
+	            else:
+	                arrayNew[x, y] = [0, 0, 0]
+	        except:
+	            print(x, y)
+	img = Image.fromarray(arrayNew)
+	img
+
+As you can see in this picture, there are many green pixels that shouldn't be there. They are randomly around the document. We will fix this in part 2. 
+## PART 2
+Loops through all `618800` pixels.  For each pixel it creates a square around it based on the distance :
+
+| -|  DISTANCE | OF| 2| -|
+|--|--|--|-- |--|
+| [0,0,0] | [0, 255,0] | [0,0,0]| [0, 0, 0] | [0,0,0] |
+| [0,0,0] | [0,0,0]| [0, 255,0]| [0,0,0] | [0, 255,0]|
+| [0,0,0] | [0,0,0]| **center [0, 255, 0]** | [0,0,0]| [0, 255,0]|
+| [0, 255,0] | [0,0,0] | [0, 255,0]| [0, 255,0] | [0,0,0]|
+| [0,0,0]| [0,0,0] | [0,0,0]| [0,0,0] | [0, 255,0] |
+
+This is an example of an array for one of the pixels. As you can see there are **16** black pixels (`[0,0,0]`) and there are **8** green pixels ( `[0,255,0]` ) around the center pixel.
+PERCENT BLACK = **66.6%**
+PERCENT GREEN = **33.3%**
+Since the percent black is over a threshold, it converts the center pixel to **BLACK**. 
+
+
+As a result the final picture will look like 
+
+
+
+Main Code
+
+    distance = 3
+	for thingthing in range(len(array[0])-distance):
+	    for thingthingYY in range(len(array)-distance):
+	        center_XXX = thingthing
+	        center_YYY = thingthingYY
+	        partArrDis = [[0 for x in range(distance*2+1)] for y in range(distance*2+1)]
+	        center_XX = center_XXX
+	        center_YY = center_YYY
+	        for uu in range(distance*2+1):
+	            for rr in range(distance*2+1):
+	                a,b,c = array[uu][rr]
+	                theSingleArrayABC = [a,b,c]
+	                partArrDis[uu][rr] = theSingleArrayABC
+	        countGreen = 0
+	        countBlack = 0
+	        totalCount = 0
+	        for aa in range(len(partArrDis)):
+	            for bb in range(len(partArrDis[0])):
+	                singleARRAYwPART = partArrDis[aa][bb]
+	                rr, gg, bb = singleARRAYwPART
+	                if rr == 0 and gg == 255 and bb == 0:
+	                    countGreen += 1
+	                else:
+	                    countBlack += 1
+	                totalCount+=1
+	        perceBlack = (countBlack/totalCount) * 100
+	        perceGreen = (countGreen/totalCount) * 100
+	        x = perceBlack+perceGreen
+	        if x != 100:
+	            print("ERROR")
+	        
 
 ## Process
 |Barcode|Date|Title|
