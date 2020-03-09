@@ -1,4 +1,35 @@
+
 # Detecting if a document real or fake
+
+What it does, is that it **compares 2 files**. The user inputs 2 files, and it out puts with a series of values and does a series of checks to compare if document is real. 
+Series of tests:
+
+ - Shape of image
+	 - The image is taken in by `cv2.imread` which converts image to a numpy array. 
+	 - Some times the images are different sizes which can mess up the comparision
+	 - Every image is converted into a `698` by `910` size. 
+ - The SSIM score 
+	 - Stands for *Structural Similarity Index*.
+		 - The mean structural similarity over the image.
+	 - This is the average similiarty between both images.
+	 - For real documents comapres
+		 - between `0.3` and `0.5`
+	 - For fake documents compares
+		 - between `0.1` and `0.28`
+ - The Percent Difference
+	 - This is the overall difference between the images
+	 - Unlike the SSIM this is a direct comparision in the numpy array. It uses patterns in the numpy array and draw boxes around the values. 
+	 - Usually, the document comparision ouputs with values over 100% which means parts of the images are overlayed, which is expected 
+ - The number of key points
+	 - Using  `cv2.xfeatures2d.SIFT_create()` and `sift.detectAndCompute()` this creates a series of **Critical points** in the image. This is later used to draw comparisions
+ - The total number of matches
+	 - Using the critical points, it compared the two images, and matches each critical point to its closest, value in the other image
+ - Matches for the distance test
+	 - When comparing the images, some of the vectors drawn may be false, so using a **distance parameter**, we can detect (for the most part) if the lines are **horizontal** (we want, since documents are right next to each other) or if they have a **slope** (dont want).
+ - Matches for the ratio test
+	 - Using the **Lowe's ratio test** it will be able to remove the some of the values. 
+	 - In order to get the exact ratio number, I did a series of test, drew a graph, and a table, and using the average, amount of good_matches, I can acurattly detect the perfect ratio number. 
+
 ## Water Mark
 ### PART 1
 
