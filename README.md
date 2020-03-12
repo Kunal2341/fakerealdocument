@@ -180,3 +180,9 @@ In order to decode the barcode, I need to crop the image (of the document). Ther
 	 - Monospace
 	 - Point size
 	 - Underlined
+# Author
+Contact me for any questions
+
+ © Vdart 2020
+ Kunal Aneja
+ kunal.aneja101@gmail.com
