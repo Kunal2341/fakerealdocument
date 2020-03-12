@@ -4,6 +4,19 @@
 What it does, is that it **compares 2 files**. The user inputs 2 files, and it out puts with a series of values and does a series of checks to compare if document is real. 
 Series of tests:
 
+- Barcode
+	- Score Down For More Info
+- Date detection 
+	- Score Down For More Info
+- Title Comparision
+	- Score Down For More Info
+- Text Comparision
+	- Compares the two texts that are detected from the PNG using tesseract
+- WaterMark
+	- 3 tests
+		- Average WaterMark
+		- Normal Watermark
+		- Detail Watermark
  - Shape of image
 	 - The image is taken in by `cv2.imread` which converts image to a numpy array. 
 	 - Some times the images are different sizes which can mess up the comparision
