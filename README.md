@@ -143,6 +143,45 @@ Main Code
 |Extract written barcode and compare values|-| Threshold value `20`
 |`Error` faced when converting image to text -> I or 1|-| `Error` when title is titled
 
+# Pdf2image
+
+So for my project I really struggled in converting a pdf to a image so here is a step by step instuction\
+
+1. Install pdf2image 
+	1. `pip install pdf2image`
+2.  Install poppler
+	1. This is very important
+	2. [https://poppler.freedesktop.org/](https://poppler.freedesktop.org/)
+		3. Click on "https://poppler.freedesktop.org/poppler-0.86.1.tar.xz" 
+		4.  This will install a compressed file of poppler so then you use 7zip (must install seperatly)
+		5.  Once you extract it, move the file to your specific location
+		6. Now you know the poppler location path
+3. Make sure you have these libaries imported. Use `pip install` if not working
+	4. `import PIL`
+	5. `from PIL import Image`
+	6. `from pdf2image import convert_from_path`	
+	7. `import os`
+4. Code
+**Make sure you change your poppler path**
+```python
+def convert_pdf_2_image(uploaded_image_path, uploaded_image,img_size):
+    project_dir = os.getcwd()
+    os.chdir(uploaded_image_path)
+    file_name = str(uploaded_image).replace('.pdf','')
+    output_file = file_name+'.jpg'
+    pages = convert_from_path(uploaded_image, 200,poppler_path='/Users/kunal/Documents/VdartWorking/Poppler/poppler-0.68.0_x86/poppler-0.68.0/bin/')
+    for page in pages:
+        page.save(output_file, 'JPEG')
+        break
+    os.chdir(project_dir)
+    img = Image.open(output_file)
+    img = img.resize(img_size, PIL.Image.ANTIALIAS)
+    img.save(output_file)
+    return output_file
+
+os.chdir("/Users/kunal/Documents/")
+convert_pdf_2_image("/Users/kunal/Documents/", "invite.pdf", (200,200))
+```
 
 # As of Feb 20
 - Detection of barcode using an API from dynamsoft. (Contact Kunal for the API token). 
