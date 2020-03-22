@@ -1,3 +1,35 @@
+# Vales
+MAINIMAGEFILEPNG = path for detecting image png
+MAINPDFFILE = path for detecting image pdf
+COMPAREIMAGEFILEPNG = path for real image
+result1Final = barcode from the tesseract text detected
+result2Final = barcode from the tesseract text detected part 2
+barcodeDetected = barcode value from decoding barcode
+
+DATEWORKING = final True/False of date
+WHYDATEISWORKING = reason why date is true or false
+
+The following follow the same basic idea
+It takes the title part of both images and subtracts each array (if they were the same picture then the subtracted array will be 0). Each one of these percents is a different threshold. Max is 255 and min is 0. 
+    PERCENT_BLUE_DIFFERENCE_TITLE, PERCENT_GREEN_DIFFERENCE_TITLE, PERCENT_RED_DIFFERENCE_TITLE, **50**
+    PERCENT_BLUE_DIFFERENCE_TITLE11, PERCENT_GREEN_DIFFERENCE_TITLE11, PERCENT_RED_DIFFERENCE_TITLE11, **80**
+    PERCENT_BLUE_DIFFERENCE_TITLE22, PERCENT_GREEN_DIFFERENCE_TITLE22, PERCENT_RED_DIFFERENCE_TITLE22, **30**
+
+TITLEIMAGECOMPARE = final compare with a threshold of 15 percent (only for the orginal 50)
+similar = uses SequenceMatcher to compare similarty between the texts
+diffsimiliar = personal way to check if the texts are similar
+diffdifferent = personal way to check if the texts are similar
+
+The following follow the same basic idea
+This is the watermark comparision. It compares both of the images watermarks.
+    coorect, worng, error, **Basic Watermark compare**
+    aveCorrect, aveWRONG, aveERROR, **Using average pixels Watermark compare**
+    correctPT2,wrongPT2, errorPT2 **Basic Watermark compare part 2 method**
+WATERMARKOUTPUTFINAL = Final output of the watermark
+
+score = SSIM score
+perdiff = Percent difference between them
+
 
 # Detecting if a document real or fake
 
