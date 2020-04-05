@@ -93,7 +93,7 @@ Series of tests:
 
 This converts the document into a 2D ARRAY and loops through all the values. It checks for each RGB value if it is between **239 and 248**. 
 If YES then converts it to a green pixel (**[0, 255, 0]**) and if NO then it converts to (**[0, 0, 0]**). 
-
+```python
     down = 239 #238 ----- 239 
 	up = 248 # ---------248
 	array = cv2.imread(file1)
@@ -117,7 +117,7 @@ If YES then converts it to a green pixel (**[0, 255, 0]**) and if NO then it con
 	            print(x, y)
 	img = Image.fromarray(arrayNew)
 	img
-
+```
 ![Image](https://github.com/Kunal2341/fakerealdocument/blob/master/Editedasof2-28removedAgain.jpg)
 
 
@@ -145,7 +145,7 @@ As a result the final picture will look like
 
 
 Main Code
-
+```python
     distance = 3
 	for thingthing in range(len(array[0])-distance):
 	    for thingthingYY in range(len(array)-distance):
@@ -176,7 +176,7 @@ Main Code
 	        x = perceBlack+perceGreen
 	        if x != 100:
 	            print("ERROR")
-	        
+```	        
 
 ## Process
 |Barcode|Date|Title|
