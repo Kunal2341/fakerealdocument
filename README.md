@@ -1,3 +1,28 @@
+# Detect Real or Fake Documents
+As my project for Vdart, I created a series of tests to test if a document is real or fake. The user inputs 2 files, and it out puts with a series of values and does a series of checks to compare if document is real. Series of tests:
+Check https://github.com/Kunal2341/fakerealdocument for more information
+As of right now to the working percentage is **58%**
+| Foldername |  Real| Fake| Documents| Percentage Score|Weighted Threshold| Normal Threshold|
+|-----------|-------|------|-----------|------------------|---------------|-----------------|
+|test_04-05_13|8|2|10|**90%**|-|*Guess*|
+|testFINALCOLAB_04-05_54|15|13|28|**55%**|-|*Guess*|
+|-----------|-------|------|-----------|------------------|---------------|----------------|
+|on colab run 4 and 5|45|0|45|**60.37%**|-|43.75
+|on colab run 4 and 5|45|0|45|**53.33%**|-|50|\n",
+|on colab run 4 and 5|45|0|45|**59.25%**|93.75|-|
+|on colab run 4 and 5|45|0|45|**96.29%**|90|-|
+|-----------|-------|------|-----------|------------------|---------------|-----------------|
+|on colab run 1|0|6|6|**33.33%**|-|43.75|
+|on colab run 1|0|6|6|**33.33%**|-|50|
+|on colab run 1|0|6|6|**0%**|93.75|-|
+|on colab run 1|0|6|6|**50%**|90|-
+|-----------|-------|------|-----------|------------------|---------------|-----------------|
+|on colab run 2|0|22|22|**21.16%**|-|43.75|
+|on colab run 2|0|22|22|**30.43%**|-|50|
+|on colab run 2|0|22|22|**50%**|93.75|-|
+|on colab run 2|0|22|22|**0%**|90|-|
+# Weightage 
+As an attempt to make the code better. I added a weightage to the numbers. As the numbers are further from the threshold, the higher weighted it is to the final score and hence a more powerful test. Still in development.
 
 # Values
 - MAINIMAGEFILEPNG = path for detecting image png
@@ -141,41 +166,89 @@ Since the percent black is over a threshold, it converts the center pixel to **B
 
 As a result the final picture will look like 
 
-*******************ADD IMAGE HERE
 
 
 Main Code
 ```python
-    distance = 3
-	for thingthing in range(len(array[0])-distance):
-	    for thingthingYY in range(len(array)-distance):
-	        center_XXX = thingthing
-	        center_YYY = thingthingYY
-	        partArrDis = [[0 for x in range(distance*2+1)] for y in range(distance*2+1)]
-	        center_XX = center_XXX
-	        center_YY = center_YYY
-	        for uu in range(distance*2+1):
-	            for rr in range(distance*2+1):
-	                a,b,c = array[uu][rr]
-	                theSingleArrayABC = [a,b,c]
-	                partArrDis[uu][rr] = theSingleArrayABC
-	        countGreen = 0
-	        countBlack = 0
-	        totalCount = 0
-	        for aa in range(len(partArrDis)):
-	            for bb in range(len(partArrDis[0])):
-	                singleARRAYwPART = partArrDis[aa][bb]
-	                rr, gg, bb = singleARRAYwPART
-	                if rr == 0 and gg == 255 and bb == 0:
-	                    countGreen += 1
-	                else:
-	                    countBlack += 1
-	                totalCount+=1
-	        perceBlack = (countBlack/totalCount) * 100
-	        perceGreen = (countGreen/totalCount) * 100
-	        x = perceBlack+perceGreen
-	        if x != 100:
-	            print("ERROR")
+down = 239#238 ----- 239 
+up = 248
+row = []
+column = []
+array = cv2.imread(file1)
+x_length = len(array[0])
+y_length = len(array)
+for i in range(x_length):
+    row.append(str(i))
+for i in range(y_length):
+    column.append(str(i))
+df = pd.DataFrame(index=row, columns=column)
+array = cv2.imread(file1)
+arrayNew = cv2.imread(file1)
+NUMOFPIXELSHOULDTHEREBUTNOTAVERAGE = 0
+NUMOFPIXELNOTBUTTHEREAVERAGE = 0
+NUMOFCORRECTPIXELAVERAGE = 0
+totalCOUNTAVERAGE = 0
+definitivVALUEAVERAGE = False
+distance = 4
+dis = distance
+for thingthing in range(len(array[0])-distance):
+    for thingthingYY in range(len(array)-distance):
+        center_XXX = thingthing
+        center_YYY = thingthingYY
+        distance = dis
+        partArrDis = [[0 for x in range(distance*2+1)] for y in range(distance*2+1)]
+        center_XX = center_XXX
+        center_YY = center_YYY
+        for uu in range(distance*2+1):
+            for rr in range(distance*2+1):
+                a,b,c = array[uu+(thingthingYY-distance*2+1)][rr+(thingthing-distance*2+1)]
+                theSingleArrayABC = [a,b,c]
+                partArrDis[uu][rr] = theSingleArrayABC
+        countGreen = 0
+        countBlack = 0
+        totalCount = 0
+        theXofARRRAY = len(partArrDis)
+        theYofARRRAY = len(partArrDis[0])
+        for aa in range(theXofARRRAY):
+            for bb in range(theYofARRRAY):
+                singleARRAYwPART = partArrDis[aa][bb]
+                rr, gg, bb = singleARRAYwPART
+                if rr < 40 and gg < 40 and bb < 40:
+                    countBlack += 1
+                else:
+                    countGreen += 1    
+                totalCount+=1
+        perceBlack = (countBlack/totalCount) * 100
+        perceGreen = (countGreen/totalCount) * 100
+        x = perceBlack+perceGreen
+        IDK_X = center_XXX-distance*2+1
+        IDK_Y = center_YYY-distance*2+1
+        if (perceBlack > 30):
+            arrayNew[IDK_Y][IDK_X]=[0,0,0]
+            definitivVALUEAVERAGE = False
+        else:
+            arrayNew[IDK_Y][IDK_X] = [0,255,0]
+            definitivVALUEAVERAGE = True
+        singlearray2 = array2[thingthingYY, thingthing]
+        r2 = singlearray2[0]
+        g2 = singlearray2[1]
+        b2 = singlearray2[2]
+        if (r2 > down and r2 < up and g2 > down and g2 < up and b2 > down and b2 < up):
+            pixelDONTKNOWAVERAGE = True
+        else:
+            pixelDONTKNOWAVERAGE = False
+        if(definitivVALUEAVERAGE and pixelDONTKNOWAVERAGE):
+            #WHEN PIXEL SHOULD BE IN RANGE AND IS IN RANGE
+            NUMOFCORRECTPIXELAVERAGE+=1
+        elif(definitivVALUEAVERAGE and not pixelDONTKNOWAVERAGE):
+            #WHEN PIXEL SHOULD BE IN RANGE BUT ISNT
+            NUMOFPIXELSHOULDTHEREBUTNOTAVERAGE+=1
+        elif(not definitivVALUEAVERAGE and definitivVALUEAVERAGE):
+            #WHEN PIXEL SHOULDN'T BE IN RANGE BUT IS
+            NUMOFPIXELNOTBUTTHEREAVERAGE+=1     
+        totalCOUNTAVERAGE+=1
+img = Image.fromarray(arrayNew)
+im1 = img.save("GroupedPixeledIMAGE.jpg")
 ```	        
 
 ## Process
